@@ -1,0 +1,40 @@
+\documentclass{article}
+
+% The first of these two packages allow for accented characters to be copied
+% from the resulting PDF properly, and the second package allows for accented
+% characters to be entered in the TeX file
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Clickable hyperlinks in the report with \url
+\usepackage[hyphens]{url}
+
+% Makes it easy to refer to listings, figures, and the likes of them with
+% \autoref{labelName}
+\usepackage{hyperref}
+
+% The listings package is useful for including source code in the report.
+% It provides (among other things):
+%   * lstlisting environment for listing code directly
+%   * lstinputlistings command for listing code from a file
+%   * lstinline command for code appearing in the middle of a sentence
+\usepackage{listings}
+
+% Increases the chance that things will fit on a line properly :)
+\usepackage{fullpage}
+
+% Make enumerate go (a), (b), ... instead of 1., 2., ...
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+% Avoids "code" duplication
+\newcommand{\highergradesonly}{[\textbf{higher grades only}]}
+
+\title{\textbf{Secure Computer Systems I: Lab 1}}
+\author{Ren Li \and Tianyao Ma \and Samuel Pettersson}
+
+\begin{document}
+\maketitle
+\input{task1}
+\input{task2}
+\input{task3}
+\end{document}

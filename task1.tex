@@ -1,0 +1,24 @@
+% Trailing asterisk to suppress section number
+\section*{Task 1: SQL injections}
+
+% Some examples
+\begin{lstlisting}[caption={Here's a caption.},
+                   language=SQL,
+                   label=lst:sqlInjection]
+  SELECT * FROM Customers
+  WHERE id = 4 or 1 = 1;
+\end{lstlisting}
+% Use \autoref to refer to a listing by its label
+The statement shown in \autoref{lst:sqlInjection} is the result of a SQL injection.
+
+% \lstinline seems to be a good idea for inlining code, especially when the
+% command contains backslashes, braces and the likes of them
+The following is a command with symbols with special meaning in \LaTeX: \lstinline{grep "report\|open"}
+
+\subsection*{Exercises:}
+\begin{enumerate}
+\item Text goes here
+\item
+\item
+\item
+\end{enumerate}
