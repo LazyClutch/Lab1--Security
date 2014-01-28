@@ -14,7 +14,7 @@
 		\end{center}
 	\end{itemize}
 	\indent Explanation: In the example, we write a piece of Javascript code in the comment area and submit it. It can work because the website has XSS vulnerability which enable us to insert and perform Javascript in the website. When it reloads, it will generate the current HTML code which contains the code we just injected. And it works as a result.
-	\item To perform CSRF attacks, we need to create a custom web page contains deceived information. The function is to let user comment in the guestbook and receive countless alert. The key point is to guide victim to visit your page and click on the information. As the reason that we demonstrate it just as an example, we can  suppose that the victim will click it. Below are the steps:
+	\item To perform CSRF attacks, we need to create a custom web page contains deceived information. The function is to let user comment in the guestbook and receive countless alert. The key point is to guide victim to visit your page and click on the information. As the reason that we demonstrate it just as an example, we can suppose that the victim will click it. The custom page is so simple that it is just written as a demo. Below are the steps:
 	\begin{itemize}
 		\item Write a simple page containing these code:
 		\par
@@ -48,7 +48,8 @@
 	\item Note: There might be some different performance in different browsers. i.e. Safari will operate the code after you quit it and reopen it.
 	\end{itemize}
 	\indent Explanation: In the example, we use a self-written page to perform CSRF attack. As mentioned above, the key point is that the attacker need to persuade the victim to visit the deceived page which contains evil code. The code can work with following reasons. First, the code will perform action in the server (BadStore) such as submitting an order or transferring money to another account. Second, the code will work because the victim doesn't close the server website. To make it clear, the cookie of the server website still exists in the browser. As a result, when the server receives the deceived request, it will think that the request is made by the victim and perform related operation.
-\item
+	\item The difference is that, in an XSS attack, attacker makes the attack by inserting the  Javascript code inside the site. Because the site do not have strict check on user inputs, the code can be planted into HTML which will be operated on loading. On the contrary, CSRF attack don't necessarily need Javascript. What count most is that attacker must acquire trust from user and let him to operate the deceived request. Also, the user can't quit the page because the code will only work when the cookie of the target page stays. It's not the attacker himself that make it work.
+
 \item \highergradesonly
 \item \highergradesonly
 \end{enumerate}
