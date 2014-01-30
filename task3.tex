@@ -28,5 +28,10 @@ Without precomputation, however, each password guess will require one computatio
     \item
       While the fingerprint sensor of the iPhone 5s can evidently be deceived in a variety of ways, there are at least two reasons that it is a good addition to the iPhone security. The first reason is that the use of the fingerprint sensor in conjunction with more traditional authentication methods such as PIN codes adds another layer for the attacker to get past. The other reason, while not as convincing as the first, is that the sensor might provide a strong enough protection for some users, by the principle of adequate protection.
     \item
+      The principle of authenticating with something you have could be leveraged to increase the security of the phone unlocking mechanism drastically. One could imagine that the presence of a physical device---a \textit{token}---capable of communicating with the phone in a wireless manner would be required to unlock the phone. With a challenge-response system, the token could prove its presence without opening up the possibility of a replay attack.
+
+In this, the time of smart devices, the token need not be a piece of special-purpose hardware with the only purpose of authenticating the possessor to the phone; for instance, a smartwatch could be assigned the task of authentication on the phone.
+
+While requiring a separate device of some sort to unlock the phone is obviously beneficial in the case that the phone but not the device is lost, a downside of the system is apparent in the opposite scenario: losing the device but not the phone. In that case, the phone is rendered unusable. There being ramifications of an authentication system is not unique to those based on the principle of what you have though; the situation of losing one's device can be likened to that of forgetting  one's PIN code, which also renders the phone unusable.
   \end{itemize}
 \end{enumerate}
