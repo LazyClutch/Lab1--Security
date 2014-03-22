@@ -23,6 +23,11 @@
 %   * lstinputlistings command for listing code from a file
 %   * lstinline command for code appearing in the middle of a sentence
 \usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  breaklines = true
+}
+
 \usepackage{xcolor}
 
 % Increases the chance that things will fit on a line properly :)
@@ -34,6 +39,8 @@
 % Avoids "code" duplication
 \newcommand{\highergradesonly}{[\textbf{higher grades only}]}
 
+\newcommand{\ip}[1]{{#1}}
+
 \title{\textbf{Secure Computer Systems I: Lab 1}}
 \author{Ren Li \and Tianyao Ma \and Samuel Pettersson}
 
@@ -43,6 +50,12 @@
 \input{task2}
 \input{task3}
 \begin{thebibliography}{9}
+\bibitem{php}
+  php.net
+  ``Prepared statements and stored procedures''
+  accessed 2014--03--22.
+  [Online]
+  Available: \url{http://www.php.net/pdo.prepared-statements}
 \bibitem{website:wikipedia_CSRF_XSS}
   Wikipedia,
   ``Cross-site request forgery'',

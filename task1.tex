@@ -3,33 +3,39 @@
 
 \subsection*{Exercises:}
 \begin{enumerate}
-\item The result shows below:
-	\par 
-	\begin{center}\includegraphics[height=2.5in]{sqli1}
-	\end{center}
-	Explanation: Before injection, the SQL code should be SELECT * FROM user WHERE EmailAddress = 'emailaddress’ AND Password = ’password’. Then during the injection, we input admin ‘--‘ in the text of Email Address and whatever password is in the text of Password. The WHERE condition is altered into WHERE EmailAddress = 'admin' -- ' AND 	Password = ’password’ (WHERE EmailAddress = 'admin'). So there is no need of password and we can directly log into admin account.
-\item The result shows below (Continued on next page):
-	\par
-	\begin{center}\includegraphics[height=2.5in]{sqli2}
-	\end{center}
-	Explanation:Before injection, the SQL code should be SELECT * FROM user WHERE UserName = 'username’ AND Password = ’password’. Then during the injection, we input admin ‘--‘ in the text of Username and whatever password is in the text of Password. The WHERE condition is altered into WHERE UserName = 'admin' -- ' AND Password = ’password’ (WHERE UserName = 'admin'). So there is no need of password and we can directly log into admin account.
+\item The result is shown below:
+  \begin{center}\includegraphics[height=2.5in]{sqli1}
+  \end{center}
+  \textbf{Explanation} Without injection, the SQL code is believed to be \lstinline{SELECT * FROM user WHERE EmailAddress = 'emailaddress' AND Password = 'password'}. Then during the injection, we input \lstinline{admin '--'} in the text box for the email address and some arbitrary password in the text box for the password. The WHERE condition is altered into \lstinline{WHERE EmailAddress = 'admin' -- ' AND Password = 'password'}, where the part following the two dashes is interpreted as a SQL comment. In other words, the WHERE condition is turned into \lstinline{WHERE EmailAddress = 'admin'}. Thus there is no need for a password and we can directly log into the admin account.
+\item The result is shown below (Continued on next page):
+  \begin{center}\includegraphics[height=2.5in]{sqli2}
+  \end{center}
+  \textbf{Explanation} The underlying SQL code for the login screen for host \ip{192.168.2.134} is believed to be the same as before: without injection, the SQL code is thought to be \lstinline{SELECT * FROM user WHERE UserName = 'username' AND Password = 'password'}. Then during the injection, we input \lstinline{admin '--'} in the text box for the username and some arbitrary password in the text box for the password. The WHERE condition is altered into \lstinline{WHERE UserName = 'admin' -- ' AND Password = 'password'} (or equivalently, \lstinline{WHERE UserName = 'admin'}). So there is no need for a password and we can directly log into the admin account.
 \item \textbf{Prepared Statement} 
-	\par Prepared statement is also called parametrized statement, which is a SQL query with variables inside of it. That is to say, we prepare the query with blank spot to fill and it will automatically protect the query from SQL injection.
-	\par Here is the example:
-	\par \textit{stmt = dbh->prepare(“INSERT INTO REGISTRY (name, value) VALUES (:name, :value)”);}
-	\par \textit{stmt->bindParam(':name', name);}
-	\par \textit{stmt->bindParam(':value', value);}
-	\par In our case, we can create prepared statement as follows:
-prepare(“SELECT * FROM user WHERE UserName = :username AND Password = :password”);
-bind(':username', username);
-bind(':password', password);
-	\par
-	\par \textbf{Explanation}
-	\par Before injection, we have two variables, admin(username) and test(password). The SQL query should be SELECT * FROM user WHERE username = ‘admin’ AND password = ‘test’. Then during the injection, these two variables are changed into admin' --(username) and 123(password) and the SQL query becomes SELECT * FROM user WHERE username = 'admin\' --' AND password = '123'. It’s because the binding system will automatically change the input to protect the query. So the SQL injection doesn't work in this situation.
-\item The school lost all the student records because the table Students in the database is dropped by SQL injection. Before injection, the SQL code should be INSERT INTO Students VALUES ('Robert'). Then during the injection, the query is altered into INSERT INTO Students VALUES ('Robert'); DROP TABLE Students; -- . So after the query is executed, the table Students will be dropped automatically.
+  A prepared statement, which is also called a parametrized statement, is a SQL query with variables inside of it. That is to say, we prepare the query with blank spots to fill and it will automatically protect the query from SQL injection.
 
-What the school should do is to sanitize the database inputs by utilizing prepared statement as mentioned above. They can create prepared statement as follows:
-prepare(“INSERT INTO Students VALUES (':name')”);
-bind(':name',name);
+  Here is a code snippet for using a prepared statement in PHP\cite{php}:
+  \begin{lstlisting}[language = php]
+    stmt = dbh->prepare("INSERT INTO REGISTRY (name, value) VALUES (:name, :value)");
+    stmt->bindParam(':name', name);
+    stmt->bindParam(':value', value);
+  \end{lstlisting}
+
+  In our case, we can create a prepared statement as follows:
+  \begin{lstlisting}
+    prepare("SELECT * FROM user WHERE UserName = :username AND Password = :password");
+    bind(':username', username);
+    bind(':password', password);
+  \end{lstlisting}
+  
+  \textbf{Explanation}
+  There are two variables in the prepared statement: username and password. Without injection, for instance with the username \lstinline{admin} and the password \lstinline{test}, the SQL query for logging on would be \lstinline{SELECT * FROM user WHERE username = 'admin' AND password = 'test'}. During an injection attempt, for instance with the username \lstinline{admin' --} and password \lstinline{123}, the SQL query becomes \lstinline{SELECT * FROM user WHERE username = 'admin\' --' AND password = '123'}. This is because the binding system will automatically change the input to protect the query. Thus, the SQL injection doesn't work in this situation.
+\item The school lost all the student records because the table Students in the database is dropped by SQL injection. The SQL statement intended to be executed can be assumed to be of the form \lstinline{INSERT INTO Students VALUES ('Robert')}. The SQL injection had this query altered into the following two statements: \lstinline{INSERT INTO Students VALUES ('Robert'); DROP TABLE Students; --}. When the query is executed, the table Students will be dropped.
+
+  What the school should do is to sanitize the database inputs by utilizing prepared statement as mentioned above. They can create prepared statement as follows:
+  \begin{lstlisting}
+    prepare("INSERT INTO Students VALUES (':name')");
+    bind(':name',name);
+  \end{lstlisting}
 
 \end{enumerate}
