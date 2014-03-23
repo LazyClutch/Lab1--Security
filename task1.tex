@@ -6,7 +6,7 @@
 \item \exercise{Perform SQL injections in at least one input field on the BadStore website. In the lab report, give the injections
 and the output/result. Explain how each injection works word for word, and why it works.}
 
-We chose to perform SQL injections in the input box for the email address on the login page, shown in upper half of \autoref{fig:sql1}. The result---being logged on as the administrator---is shown in the lower half of the figure.
+We chose to perform SQL injections in the input box for the email address on the login page, shown in the upper half of \autoref{fig:sql1}. The result---being logged on as the administrator---is shown in the lower half of the figure.
 \begin{figure}[h!]
 	\caption{SQL Injection and Logged in as Administrator}
         \label{fig:sql1}
@@ -39,7 +39,7 @@ The system administrator can use so-called \textit{prepared statements} to preve
     stmt->bindParam(':value', value);
   \end{lstlisting}
 
-  In the previous exercises, a username and a password has been supplied by the user. That is, the queries have been of the form
+  In the previous exercises, a username and a password have been supplied by the user. That is, the queries have been of the form
 \begin{lstlisting}
   SELECT * FROM user WHERE UserName = 'admin' AND Password = 'test'
 \end{lstlisting}
