@@ -36,9 +36,9 @@
   
   \textbf{Explanation}
   There are two variables in the prepared statement: username and password. Without injection, for instance with the username \lstinline{admin} and the password \lstinline{test}, the SQL query for logging on would be \lstinline{SELECT * FROM user WHERE username = 'admin' AND password = 'test'}. During an injection attempt, for instance with the username \lstinline{admin' --} and password \lstinline{123}, the SQL query becomes \lstinline{SELECT * FROM user WHERE username = 'admin\' --' AND password = '123'}. This is because the binding system will automatically change the input to protect the query. Thus, the SQL injection doesn't work in this situation.
-\item The school lost all the student records because the table Students in the database is dropped by SQL injection. The SQL statement intended to be executed can be assumed to be of the form \lstinline{INSERT INTO Students VALUES ('Robert')}. The SQL injection had this query altered into the following two statements: \lstinline{INSERT INTO Students VALUES ('Robert'); DROP TABLE Students; --}. When the query is executed, the table Students will be dropped.
+\item The school lost all the student records because the table Students in the database is dropped by SQL injection. The SQL statement intended to be executed can be assumed to be of the form \lstinline{INSERT INTO Students VALUES ('Robert');}. The SQL injection had this query altered into the following two statements and comment: \lstinline{INSERT INTO Students VALUES ('Robert'); DROP TABLE Students; --');}. When the query is executed, the table Students will be dropped.
 
-  What the school should do is to sanitize the database inputs by utilizing prepared statement as mentioned above. They can create prepared statement as follows:
+  What the school should do is to sanitize the database inputs by utilizing prepared statements as mentioned above. They can create the prepared statement as follows:
   \begin{lstlisting}
     prepare("INSERT INTO Students VALUES (':name')");
     bind(':name',name);
