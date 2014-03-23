@@ -3,6 +3,8 @@ The third and last task of the lab was about authentication, and the exercises w
 \subsection*{Exercises:}
 \begin{enumerate}
 \item % (a)
+\exercise{How does hashing a list of passwords work (in principle)? What is salting, and why does it offer increased security? Explain in the lab report.}
+
 Hashing a list of passwords with a one-way hash function, say $f$, rather than having the passwords stored in cleartext is a method for reducing the impact of a database leak. Authentication given a password $p$ in such a system is done by computing the hash $f(p)$ of the password and comparing it with the hash for the specific user stored in the database.
 
 In the event that the password hashes are exposed to an attacker, there is no trivial way for him or her to retrieve the passwords corresponding to the compromised password hashes, by the definition of a one-way hash function. Thus, there is no trivial way of authenticating despite having access to both the hash function and the hashes. If an attacker finds the passwords stored in cleartext, on the other hand, he or she can authenticate as any of the affected users on the system. Furthermore, because passwords are frequently reused in more than one system, the attacker might be able to authenticate falsely on other systems as well. In other words, the impact of a cleartext password leak could encompass more than just the attacked system.
@@ -13,6 +15,8 @@ Salting is a method for making password guessing more difficult. In addition to 
 
 If an attacker gets hold of the database, which contains a salt and hash for each user, and aims for finding the password of \emph{any} of the users, the addition of the salt will make password guessing more difficult. Let $n$ be the number of users. Under the assumption that each user has a unique salt, the attacker will have to compute $n$ hashes for each password guess, compared to the single computation that is required with hashing alone\cite{book:salting}. Salting offers increased security also against attacks with precomputed tables, seeing as one table would be needed for each possible salt in order to cover the same passwords as without salting.
 \item % (b)
+\exercise{Suppose you are trying to attack a specific account. If the password is salted, will this make the attack more difficult? Discuss with your group. Explain carefully in the lab report what you believe and why.}
+
 Assuming that the salt and salted hash are known to an attacker, salting may make the attack on a specific account more difficult, depending on whether precomputed tables are used.
 
 If precomputed tables are used and the attacker did not choose the specific user because the attacker had a precomputed table for that specific salt, salting will make the attack more difficult in that more precomputed tables will be required.
@@ -24,10 +28,15 @@ Without precomputation, however, each password guess will require one computatio
     \item
   \end{itemize}
 \item % (d)
+\exercise{On the recent iPhone 5s, a fingerprint sensor has been added. It can be used to unlock the phone. Such sensors are, however, not foolproof.}
   \begin{itemize}
     \item
+      \exercise{Why is the sensor still a good addition to the iPhone security?}
+
       While the fingerprint sensor of the iPhone 5s can evidently be deceived in a variety of ways, there are at least two reasons that it is a good addition to the iPhone security. The first reason is that the use of the fingerprint sensor in conjunction with more traditional authentication methods such as PIN codes adds another layer for the attacker to get past. The other reason, while not as convincing as the first, is that the sensor might provide a strong enough protection for some users, by the principle of adequate protection.
     \item
+      \exercise{Suggest an improvement of the phone unlocking mechanism that would drastically increase its security. Relate to a basic authentication principle.}
+
       The principle of authenticating with something you have could be leveraged to increase the security of the phone unlocking mechanism drastically. One could imagine that the presence of a physical device---a \textit{token}---capable of communicating with the phone in a wireless manner would be required to unlock the phone. With a challenge-response system, the token could prove its presence without opening up the possibility of a replay attack.
 
 In this, the time of smart devices, the token need not be a piece of special-purpose hardware with the only purpose of authenticating the possessor to the phone; for instance, a smartwatch could be assigned the task of authentication on the phone.

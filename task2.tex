@@ -1,7 +1,9 @@
 \section*{Task 2: XSS and CSRF}
 \subsection*{Exercises:}
 \begin{enumerate}
-\item The steps for performing an XSS attack on BadStore are as follows:
+\item \exercise{Read about XSS (cross-site scripting) and use your knowledge to perform an XSS attack on BadStore. In the lab report, give step-by-step instructions for another user to replicate your attack. Explain how your attack works and why.}
+
+The steps for performing an XSS attack on BadStore are as follows:
   \begin{itemize}
   \item Open BadStore in your browser.
   \item Click "Sign Our GuestBook" on the left side of the page.
@@ -17,7 +19,9 @@
   \end{figure}
 
   Explanation: In the example, we write a piece of Javascript code (which simply opens a message box) enclosed in script tags in the comment area and submit it to the guest book. The attack is successful because the website has an XSS vulnerability which enables us to insert Javascript into the website and have it executed by other users. When the page reloads, the server will just paste the tag-embraced Javascript code into the HTML code in such a way that it is interpreted as a Javascript snippet rather than the text \verb|<script>alert("1")</script>|.
-\item To perform a CSRF attack, we need to create a custom web page containing deceptive information. The objective of the attack is to have an unsuspecting user make an XSS comment in the guestbook for generating countless alert messages. The key point necessary to execute the attack is to guide the victim to our page and have him or her click on the button. As we demonstrate it just as an example, we can suppose that the victim will click on it. The custom page is so simple that it is just written as a demo. Below are the steps for carrying out the attack:
+\item \exercise{Read about CSRF and use your knowledge to perform a CSRF attack on BadStore. In the lab report, give step-by-step instructions for another user to replicate your attack. Explain how your attack works and why.}
+
+To perform a CSRF attack, we need to create a custom web page containing deceptive information. The objective of the attack is to have an unsuspecting user make an XSS comment in the guestbook for generating countless alert messages. The key point necessary to execute the attack is to guide the victim to our page and have him or her click on the button. As we demonstrate it just as an example, we can suppose that the victim will click on it. The custom page is so simple that it is just written as a demo. Below are the steps for carrying out the attack:
   \begin{itemize}
   \item As the attacker, write a simple page containing this code:
     \par
@@ -58,7 +62,9 @@
   \indent Explanation: In the example, we use a self-written page to perform the CSRF attack. As mentioned above, the key point is that the attacker needs to persuade the victim to visit the deceived page which contains the evil code. The code works as follows: When the user clicks the ``Get Now!'' button, a request is sent to the server (BadStore), which could be as serious as submitting an order or transferring money to another account but in this case is just making a (malicious) guest book entry. As a result, when the server receives the disingenuous request, it will think that the victim knowingly made the request and perform the related operation.
 
 In the more serious case of submitting an order through a CSRF attack (or any other action that requires the user to be logged on) the victim has to be logged on to BadStore before clicking the ``Get Now!'' button. Under that additional circumstance, the CSRF attack would still work despite there not being any user credentials specified in the malicious code; the misled browser provides the session cookie itself.
-\item The difference is that, in an XSS attack, the attacker makes the attack by inserting Javascript code (or other code) into the site, such that users visiting the site receive and execute malicious code. In some sense, the users trust the server not to serve them harmful scripts. XSS attacks may be possible if the site does not have strict checks on user inputs.
+\item \exercise{What is the difference between a CSRF attack and an XSS attack, conceptually? Think in terms of trust and deception, discuss within the group, and explain carefully in the lab report.}
+
+The difference is that, in an XSS attack, the attacker makes the attack by inserting Javascript code (or other code) into the site, such that users visiting the site receive and execute malicious code. In some sense, the users trust the server not to serve them harmful scripts. XSS attacks may be possible if the site does not have strict checks on user inputs.
 
 On the other hand, in CSRF attacks, the attacker sets up some page that tricks the browser of a visitor to send a request to another web server. Such an attack is possible if the server does not check the origin of the request. In other words, it is possible if the server trusts the client not to make bogus requests. Another type of trust necessary for performing the attack is that of the user for the site that deceives the browser into making the requests. For most CSRF attacks (those involving actions that require the user to be logged on), the victim is required not to log out from the target page because the code will only work when the cookie of the target page stays in the browser. It is not the attacker himself that makes it work.
 \item \highergradesonly
