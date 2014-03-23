@@ -3,15 +3,15 @@
 
 \subsection*{Exercises:}
 \begin{enumerate}
-\item The result is shown below:
-
+\item The input field on the BadStore website in which a SQL injection was performed is that for the email address on the login page, shown in upper half of \autoref{fig:sql1}. The result---having logged in as the administrator---is shown in the lower half of the figure.
 \begin{figure}[h!]
 	\caption{SQL Injection and Logged in as Administrator}
+        \label{fig:sql1}
 	\centering \includegraphics[height=2.5in]{sqli1}
 \end{figure}
   
-  \textbf{Explanation} Without injection, the SQL code is believed to be \lstinline{SELECT * FROM user WHERE EmailAddress = 'emailaddress' AND Password = 'password'}. Then during the injection, we input \lstinline{admin '--'} in the text box for the email address and some arbitrary password in the text box for the password. The WHERE condition is altered into \lstinline{WHERE EmailAddress = 'admin' -- ' AND Password = 'password'}, where the part following the two dashes is interpreted as a SQL comment. In other words, the WHERE condition is turned into \lstinline{WHERE EmailAddress = 'admin'}. Thus there is no need for a password and we can directly log into the admin account.
-\item The result is shown in \autoref{fig:sql2}
+  \textbf{Explanation} Without injection, the SQL code executed when a login request is made is believed to be \lstinline{SELECT * FROM user WHERE EmailAddress = 'emailaddress' AND Password = 'password'}. Then during the injection, we input \lstinline{admin '--'} in the text box for the email address and some arbitrary password in the text box for the password. The WHERE condition is altered into \lstinline{WHERE EmailAddress = 'admin' -- ' AND Password = 'password'}, where the part following the two dashes is interpreted as a SQL comment. In other words, the WHERE condition is turned into \lstinline{WHERE EmailAddress = 'admin'}. Thus there is no need for a password and we can directly log into the admin account.
+\item The login page for host \ip{192.168.2.134} and that it was was circumvented successfully using SQL injection is shown in \autoref{fig:sql2}.
 \begin{figure}[h!]
 	\caption{SQL Injection and the Result}
         \label{fig:sql2}
@@ -29,7 +29,7 @@
     stmt->bindParam(':value', value);
   \end{lstlisting}
 
-  In our case, we can create a prepared statement as follows:
+  In our case, a system administrator could prevent the SQL injections of the previous exercises by using a prepared statement such as the following:
   \begin{lstlisting}
     prepare("SELECT * FROM user WHERE UserName = :username AND Password = :password");
     bind(':username', username);
