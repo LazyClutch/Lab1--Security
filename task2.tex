@@ -10,8 +10,11 @@
 		\item In the "Comments" field, type \textit{<script>alert("1")</script>} .
 		\item Click "Add Entry", the page should like this below:
 		\par
-		\begin{center}\includegraphics[height=2.5in]{xss}
-		\end{center}
+		\begin{figure}[h!]
+			\caption{Alert Made by XSS Attack}
+			\begin{center}\includegraphics[height=2.5in]{xss}
+			\end{center}
+		\end{figure}
 	\end{itemize}
 	\indent Explanation: In the example, we write a piece of Javascript code in the comment area and submit it. It can work because the website has XSS vulnerability which enable us to insert and perform Javascript in the website. When it reloads, it will generate the current HTML code which contains the code we just injected. And it works as a result.
 	\item To perform CSRF attacks, we need to create a custom web page contains deceived information. The function is to let user comment in the guestbook and receive countless alert. The key point is to guide victim to visit your page and click on the information. As the reason that we demonstrate it just as an example, we can suppose that the victim will click it. The custom page is so simple that it is just written as a demo. Below are the steps:
@@ -37,13 +40,19 @@
 
 		\end{lstlisting}
 	\item The page shows like this:
-	\begin{center}\includegraphics[height=2.5in]{csrf1}
-	\end{center}
+	\begin{figure}[h!]
+			\caption{Fake Page}
+			\begin{center}\includegraphics[height=2.5in]{csrf1}
+			\end{center}
+		\end{figure}
 	\item Open BadStore and login in as an user.
 	\item Click the "Get Now!" button in the custom page.
 	\item The page will be redirected into BadStore and shows like this:
-	\begin{center}\includegraphics[height=2.5in]{csrf2}
-	\end{center}
+	\begin{figure}[h!]
+			\caption{Result after Performing CSRF Attack}
+			\begin{center}\includegraphics[height=2.5in]{csrf2}
+			\end{center}
+		\end{figure}
 	\item The alert will repeat again and again as well as leaving many comments.
 	\item Note: There might be some different performance in different browsers. i.e. Safari will operate the code after you quit it and reopen it.
 	\end{itemize}

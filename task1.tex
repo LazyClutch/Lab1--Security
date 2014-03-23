@@ -4,12 +4,18 @@
 \subsection*{Exercises:}
 \begin{enumerate}
 \item The result is shown below:
-  \begin{center}\includegraphics[height=2.5in]{sqli1}
-  \end{center}
+
+\begin{figure}[h!]
+	\caption{SQL Injection and Logged in as Administrator}
+	\centering \includegraphics[height=2.5in]{sqli1}
+\end{figure}
+  
   \textbf{Explanation} Without injection, the SQL code is believed to be \lstinline{SELECT * FROM user WHERE EmailAddress = 'emailaddress' AND Password = 'password'}. Then during the injection, we input \lstinline{admin '--'} in the text box for the email address and some arbitrary password in the text box for the password. The WHERE condition is altered into \lstinline{WHERE EmailAddress = 'admin' -- ' AND Password = 'password'}, where the part following the two dashes is interpreted as a SQL comment. In other words, the WHERE condition is turned into \lstinline{WHERE EmailAddress = 'admin'}. Thus there is no need for a password and we can directly log into the admin account.
 \item The result is shown below (Continued on next page):
-  \begin{center}\includegraphics[height=2.5in]{sqli2}
-  \end{center}
+\begin{figure}[h!]
+	\caption{SQL Injection and the Result}
+	\centering \includegraphics[height=2.5in]{sqli2}
+\end{figure}
   \textbf{Explanation} The underlying SQL code for the login screen for host \ip{192.168.2.134} is believed to be the same as before: without injection, the SQL code is thought to be \lstinline{SELECT * FROM user WHERE UserName = 'username' AND Password = 'password'}. Then during the injection, we input \lstinline{admin '--'} in the text box for the username and some arbitrary password in the text box for the password. The WHERE condition is altered into \lstinline{WHERE UserName = 'admin' -- ' AND Password = 'password'} (or equivalently, \lstinline{WHERE UserName = 'admin'}). So there is no need for a password and we can directly log into the admin account.
 \item \textbf{Prepared Statement} 
   A prepared statement, which is also called a parametrized statement, is a SQL query with variables inside of it. That is to say, we prepare the query with blank spots to fill and it will automatically protect the query from SQL injection.
