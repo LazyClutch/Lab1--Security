@@ -6,7 +6,7 @@
 \item \exercise{Perform SQL injections in at least one input field on the BadStore website. In the lab report, give the injections
 and the output/result. Explain how each injection works word for word, and why it works.}
 
-The input field on the BadStore website in which a SQL injection was performed is that for the email address on the login page, shown in upper half of \autoref{fig:sql1}. The result---being logged on as the administrator---is shown in the lower half of the figure.
+We chose to perform SQL injections in the input box for the email address on the login page, shown in upper half of \autoref{fig:sql1}. The result---being logged on as the administrator---is shown in the lower half of the figure.
 \begin{figure}[h!]
 	\caption{SQL Injection and Logged in as Administrator}
         \label{fig:sql1}
@@ -27,28 +27,31 @@ The login page for host \ip{192.168.2.134} and that it was was circumvented succ
 \end{figure}
 \\
   \textbf{Explanation} The underlying SQL code for the login screen for host \ip{192.168.2.134} is believed to be the same as before: without injection, the SQL code is thought to be \lstinline{SELECT * FROM user WHERE UserName = 'username' AND Password = 'password'}. Then during the injection, we input \lstinline{admin '-- '} in the text box for the username and some arbitrary password in the text box for the password. The WHERE condition is altered into \lstinline{WHERE UserName = 'admin' -- ' AND Password = 'password'} (or equivalently, \lstinline{WHERE UserName = 'admin'}). So there is no need for a password and we can directly log into the admin account.
+
+After having successfully performed the SQL injection, we were presented an internal test page, which is shown in the lower half of \autoref{fig:sql2}. On the test page, we can ping machines on the network by entering an IP address in the text box and clicking the submit button.
 \item \exercise{What could a system administrator do to prevent SQL injections such as the ones you just did? Explain carefully
 in the lab report.}
 
-  \textbf{Prepared Statement}
-  A prepared statement, which is also called a parametrized statement, is a SQL query with variables inside of it. That is to say, we prepare the query with blank spots to fill and it will automatically protect the query from SQL injection.
-
-  Here is a code snippet for using a prepared statement in PHP\cite{php}:
+The system administrator can use so-called \textit{prepared statements} to prevent SQL injections. A prepared statement, which is also called a parametrized statement, is a SQL query with variables inside of it\cite{preparedStatement}. That is to say, we prepare the query with blank spots to fill and it will automatically protect the query from SQL injection. An example of how to use a prepared statement in PHP is shown below\cite{php}:
   \begin{lstlisting}[language = php]
     stmt = dbh->prepare("INSERT INTO REGISTRY (name, value) VALUES (:name, :value)");
     stmt->bindParam(':name', name);
     stmt->bindParam(':value', value);
   \end{lstlisting}
 
-  In our case, a system administrator could prevent the SQL injections in the previous exercises by using a prepared statement such as the following:
+  In the previous exercises, a username and a password has been supplied by the user. That is, the queries have been of the form
+\begin{lstlisting}
+  SELECT * FROM user WHERE UserName = 'admin' AND Password = 'test'
+\end{lstlisting}
+
+A prepared statement for the query above could be arranged as follows:
   \begin{lstlisting}
     prepare("SELECT * FROM user WHERE UserName = :username AND Password = :password");
     bind(':username', username);
     bind(':password', password);
   \end{lstlisting}
   
-  \textbf{Explanation}
-  There are two variables in the prepared statement: username and password. Without injection, for instance with the username \lstinline{admin} and the password \lstinline{test}, the SQL query for logging on would be \lstinline{SELECT * FROM user WHERE username = 'admin' AND password = 'test'}. During an injection attempt, for instance with the username \lstinline{admin' -- '} and password \lstinline{123}, the SQL query becomes \lstinline{SELECT * FROM user WHERE username = 'admin\' -- ' AND password = '123'}. This is because the binding system will automatically change the input to protect the query. Thus, the SQL injection doesn't work in this situation.
+  There are two variables in the prepared statement: username and password. Without injection, for instance with the username \lstinline{admin} and the password \lstinline{test}, the SQL query for logging on would be \lstinline{SELECT * FROM user WHERE username = 'admin' AND password = 'test'}. During an injection attempt, for instance with the username \lstinline{admin' -- '} and password \lstinline{123}, the SQL query becomes \lstinline{SELECT * FROM user WHERE username = 'admin\' -- ' AND password = '123'}. That is, the username is interpreted as the very username that was entered: \verb|admin' -- |. This is because the binding system will automatically change the input to protect the query. Seeing as there is no user by the name \verb|admin' -- |, the login fails, and the attempt at SQL injection is unsuccessful. 
 \item \exercise{Explain the below joke in your lab report in a boring, technical and thorough way, clarifying what happened
 to the school and what they should do about it.}
 
